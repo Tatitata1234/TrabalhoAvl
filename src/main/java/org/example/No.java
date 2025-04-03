@@ -1,11 +1,18 @@
 package org.example;
 
 public class No {
+
     private Integer chave;
+
     private No esquerda;
+
     private No direita;
+
     private int altura;
+
     private int ponto;
+
+    private No pai;
 
     public No() {
         this.esquerda = null;
@@ -24,7 +31,7 @@ public class No {
         this.ponto = 0;
     }
 
-    public void incrementaAltura(){
+    public void incrementaAltura() {
         this.altura++;
     }
 
@@ -53,6 +60,9 @@ public class No {
     }
 
     public int getAltura() {
+        if (this.direita == null && this.esquerda == null) {
+            return 1;
+        }
         return altura;
     }
 
@@ -66,5 +76,13 @@ public class No {
 
     public void setPonto(int ponto) {
         this.ponto = ponto;
+    }
+
+    public No getPai() {
+        return pai;
+    }
+
+    public void setPai(No pai) {
+        this.pai = pai;
     }
 }
