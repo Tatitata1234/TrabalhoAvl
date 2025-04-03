@@ -1,4 +1,4 @@
-package org.example;
+package org.exemple;
 
 public class No {
     private Integer chave;

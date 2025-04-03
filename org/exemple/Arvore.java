@@ -1,4 +1,4 @@
-package org.example;
+package org.exemple;
 
 import java.util.ArrayDeque;
 import java.util.Objects;
@@ -327,6 +327,15 @@ public class Arvore {
             }
             atual.setPonto(alturaFilhoEsquerda - alturaFilhoDireita);
         }
+    }
+    
+    public void organiza () {
+    	organiza(this.raiz)
+    }
+    
+    public organiza (No el) {
+    	if (el == null)
+    		sys
     }
 
 }
