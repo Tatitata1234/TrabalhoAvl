@@ -45,12 +45,12 @@ public class Arvore {
         }
         if (Objects.equals(al, no.getAltura())) {
             q.add(no);
-        }else if (al>no.getAltura()) {
+            return q;
+        }else {
             procuraAl(no.getEsquerda(), al, q);
             procuraAl(no.getDireita(), al, q);
-        }else
             return q;
-        return q;
+        }
 
     }
 

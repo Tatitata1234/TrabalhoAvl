@@ -12,15 +12,18 @@ public class TrabalhoTest {
         //Arvore<Integer> arvore2 = new Arvore<>();
         //arvore2.insereRecursivoAVL(2);
 
-        //     g
-        //    / \w
-        //   d   m
-        //  /   / \
-        // a    l  o
-        //  \       \
-        //   c       p
-        //  /         \
-        // b           q
+        /*       5
+             /      \
+            4        7
+          /   \     / \
+         1     3   6   8
+          \   / \       \
+           1 2   4       9
+                          \
+                           10
+
+
+        */
         Arvore arvore = new Arvore();
         arvore.insereRecursivo(5);
         arvore.insereRecursivo(4);
