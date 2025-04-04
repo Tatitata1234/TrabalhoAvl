@@ -237,8 +237,6 @@ public class Arvore {
         this.builderPreOrder = new StringBuilder();
     }
 
-
-
     public No inserirAVL(Integer el) {
         No no = raiz;
         No anterior = null;
@@ -314,7 +312,6 @@ public class Arvore {
         return el;
     }
 
-
     public void extensaoAltura() {
         Queue<No> fila = new ArrayDeque<>();
 
@@ -343,8 +340,6 @@ public class Arvore {
             }
             atual.setPonto(alturaFilhoEsquerda - alturaFilhoDireita);
         }
-
-
     }
 
     public void inserirEBalancearAVL (Integer el) {
@@ -368,56 +363,68 @@ public class Arvore {
             if (Math.abs(diferenca) >= 2) {
                 if (diferenca > 0) {
                     if (pai.getEsquerda().getPonto() >= 0) {
-                        No filhoEsq = pai.getEsquerda();
-                        No filhoDirFilhoEsq = filhoEsq.getDireita();
-                        No vo = pai.getPai();
-
-                        filhoEsq.setPai(pai.getPai());
-                        filhoEsq.setDireita(pai);
-                        pai.setPai(filhoEsq);
-                        pai.setEsquerda(filhoDirFilhoEsq);
-
-                        if (pai == raiz) {
-                            raiz = filhoEsq;
-                        } else {
-                            if (vo.getDireita() == pai) {
-                                vo.setDireita(filhoEsq);
-                            } else {
-                                vo.setEsquerda(filhoEsq);
-                            }
-                        }
+                        rotaSimplesDireita(pai);
 
                     } else {
-
+                        rotaSimplesEsquerda(pai.getEsquerda());
+                        rotaSimplesDireita(pai);
                     }
                 } else {
                     if (pai.getDireita().getPonto() <= 0) {
-                        No filhoDir = pai.getDireita();
-                        No filhoEsqFilhoDir = filhoDir.getEsquerda();
-                        No vo = pai.getPai();
-
-                        filhoDir.setPai(pai.getPai());
-                        filhoDir.setEsquerda(pai);
-                        pai.setPai(filhoDir);
-                        pai.setDireita(filhoEsqFilhoDir);
-
-                        if (pai == raiz) {
-                            raiz = filhoDir;
-                        } else {
-                            if (vo.getDireita() == pai) {
-                                vo.setDireita(filhoDir);
-                            } else {
-                                vo.setEsquerda(filhoDir);
-                            }
-                        }
+                        rotaSimplesEsquerda(pai);
 
                     } else {
-
+                        rotaSimplesDireita(pai.getDireita());
+                        rotaSimplesEsquerda(pai);
                     }
                 }
+                balancearAvl(folha);
+                break;
             }
 
             pai = pai.getPai();
+        }
+    }
+
+    private void rotaSimplesEsquerda(No pai) {
+        No filhoDir = pai.getDireita();
+        No filhoEsqFilhoDir = filhoDir.getEsquerda();
+        No vo = pai.getPai();
+
+        filhoDir.setPai(pai.getPai());
+        filhoDir.setEsquerda(pai);
+        pai.setPai(filhoDir);
+        pai.setDireita(filhoEsqFilhoDir);
+
+        if (pai == raiz) {
+            raiz = filhoDir;
+        } else {
+            if (vo.getDireita() == pai) {
+                vo.setDireita(filhoDir);
+            } else {
+                vo.setEsquerda(filhoDir);
+            }
+        }
+    }
+
+    private void rotaSimplesDireita(No pai) {
+        No filhoEsq = pai.getEsquerda();
+        No filhoDirFilhoEsq = filhoEsq.getDireita();
+        No vo = pai.getPai();
+
+        filhoEsq.setPai(pai.getPai());
+        filhoEsq.setDireita(pai);
+        pai.setPai(filhoEsq);
+        pai.setEsquerda(filhoDirFilhoEsq);
+
+        if (pai == raiz) {
+            raiz = filhoEsq;
+        } else {
+            if (vo.getDireita() == pai) {
+                vo.setDireita(filhoEsq);
+            } else {
+                vo.setEsquerda(filhoEsq);
+            }
         }
     }
 }

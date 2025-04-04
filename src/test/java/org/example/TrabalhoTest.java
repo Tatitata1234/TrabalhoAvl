@@ -49,7 +49,7 @@ public class TrabalhoTest {
         //  \       \
         //   3       9
         //  /         \
-        // 2          10
+        // 2           10
         Arvore arvore = new Arvore();
         arvore.inserirEBalancearAVL(5);
         arvore.inserirEBalancearAVL(4);
