@@ -247,15 +247,12 @@ public class Arvore {
         No novoNo = new No(el);
         if (raiz == null) {
             raiz = novoNo;
+            raiz.setAltura(1);
             return novoNo;
         }
 
-        raiz.setAltura(1);
-
         while (no != null) {
             anterior = no;
-
-            raiz.incrementaAltura();
 
             if (el.compareTo(no.getChave()) < 0) {
                 no = no.getEsquerda();
@@ -273,14 +270,19 @@ public class Arvore {
             anterior.setEsquerda(novoNo);
         }
 
-        int alturaNo = 0;
+        corrigeAltura(novoNo);
+        return novoNo;
+    }
+
+    private void corrigeAltura(No novoNo) {
         No proximo = novoNo;
-        while (!Objects.equals(proximo.getChave(), raiz.getChave())) {
-            proximo.setAltura(++alturaNo);
+        while (!Objects.equals(proximo, null)) {
+            int altura = calculaAltura(proximo);
+            altura++;
+            proximo.setAltura(altura);
             proximo.setPonto(0);
             proximo = proximo.getPai();
         }
-        return novoNo;
     }
 
     public void insereRecursivo(Integer chave) {
@@ -347,6 +349,7 @@ public class Arvore {
         if (noInserido != null) {
             balancearAvl(noInserido);
         }
+        corrigeAltura(noInserido);
     }
 
     private void balancearAvl(No folha) {
@@ -425,6 +428,20 @@ public class Arvore {
             } else {
                 vo.setEsquerda(filhoEsq);
             }
+        }
+    }
+
+    public int calculaAltura(No raizAtual){
+        if(raizAtual == null){
+            return -1;
+        }
+        else{
+            int esq = calculaAltura(raizAtual.getEsquerda());
+            int dir = calculaAltura(raizAtual.getDireita());
+            if(esq > dir)
+                return esq + 1;
+            else
+                return dir + 1;
         }
     }
 }
