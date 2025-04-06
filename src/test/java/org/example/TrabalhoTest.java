@@ -66,7 +66,11 @@ public class TrabalhoTest {
         arvore.inserirEBalancearAVL(9);
         arvore.inserirEBalancearAVL(10);
 
+        arvore.extensaoVisualizacao();
+
         Queue<No> q= arvore.procuraAl(0);
+
+
 
         for (No n : q) {
             System.out.println("valor: " + n.getChave());

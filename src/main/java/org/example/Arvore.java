@@ -31,8 +31,6 @@ public class Arvore {
         }
     }
 
-
-
     //procura altura
     public Queue<No> procuraAl(Integer al) {
         Queue<No> q = new ArrayDeque<>();
@@ -53,8 +51,6 @@ public class Arvore {
         }
 
     }
-
-
 
     public boolean inserir(Integer el) {
         No no = raiz;
@@ -395,7 +391,6 @@ public class Arvore {
                         rotaSimplesEsquerda(pai);
                     }
                 }
-                balancearAvl(folha);
                 break;
             }
 
@@ -468,5 +463,30 @@ public class Arvore {
             proximo.setPonto(0);
             proximo = proximo.getPai();
         }
+    }
+
+    public void extensaoVisualizacao() {
+        Queue<No> fila = new ArrayDeque<>();
+        Queue<No> filhos = new ArrayDeque<>();
+        fila.add(this.raiz);
+
+        while (!fila.isEmpty()) {
+            No atual = fila.poll();
+            System.out.print(atual.getChave() + " ");
+            if (atual.getEsquerda() != null)
+                filhos.add(atual.getEsquerda());
+            if (atual.getDireita() != null)
+                filhos.add(atual.getDireita());
+            if (fila.isEmpty()) {
+                System.out.println();
+                fila.addAll(filhos);
+                filhos = new ArrayDeque<>();
+            }
+        }
+    }
+
+    private int altura(No no) {
+        if (no == null) return 0;
+        return 1 + Math.max(altura(no.getEsquerda()), altura(no.getDireita()));
     }
 }
