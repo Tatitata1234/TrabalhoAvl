@@ -274,17 +274,6 @@ public class Arvore {
         return novoNo;
     }
 
-    private void corrigeAltura(No novoNo) {
-        No proximo = novoNo;
-        while (!Objects.equals(proximo, null)) {
-            int altura = calculaAltura(proximo);
-            altura++;
-            proximo.setAltura(altura);
-            proximo.setPonto(0);
-            proximo = proximo.getPai();
-        }
-    }
-
     public void insereRecursivo(Integer chave) {
         if (raiz == null) {
             raiz = new No(chave);
@@ -442,6 +431,17 @@ public class Arvore {
                 return esq + 1;
             else
                 return dir + 1;
+        }
+    }
+
+    private void corrigeAltura(No novoNo) {
+        No proximo = novoNo;
+        while (!Objects.equals(proximo, null)) {
+            int altura = calculaAltura(proximo);
+            altura++;
+            proximo.setAltura(altura);
+            proximo.setPonto(0);
+            proximo = proximo.getPai();
         }
     }
 }
