@@ -31,6 +31,8 @@ public class Arvore {
         }
     }
 
+
+
     //procura altura
     public Queue<No> procuraAl(Integer al) {
         Queue<No> q = new ArrayDeque<>();
@@ -39,14 +41,12 @@ public class Arvore {
 
     private Queue<No> procuraAl(No no, Integer al, Queue<No> q) {
         if (no == null) {
-            return null;
-        }
-        if (Objects.equals(al, no.getAltura())) {
-            q.add(no);
             return q;
-        }else {
-            procuraAl(no.getEsquerda(), al, q);
-            procuraAl(no.getDireita(), al, q);
+        }
+        q = procuraAl(no.getEsquerda(), al, q);
+        q = procuraAl(no.getDireita(), al, q);
+        if (al == no.getAltura() || -al==no.getAltura()){
+            q.add(no);
             return q;
         }
 

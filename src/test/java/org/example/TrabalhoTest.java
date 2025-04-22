@@ -13,7 +13,7 @@ public class TrabalhoTest {
         //arvore2.insereRecursivoAVL(2);
 
         //     g
-        //    / \
+        //    / \w
         //   d   m
         //  /   / \
         // a    l  o
@@ -28,7 +28,7 @@ public class TrabalhoTest {
         arvore.insereRecursivo(3);
         arvore.insereRecursivo(7);
         arvore.insereRecursivo(8);
-        //arvore.insereRecursivo(2);
+        arvore.insereRecursivo(2);
         arvore.insereRecursivo(4);
         arvore.insereRecursivo(1);
         arvore.insereRecursivo(6);
