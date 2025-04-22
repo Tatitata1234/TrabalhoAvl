@@ -31,27 +31,6 @@ public class Arvore {
         }
     }
 
-
-
-    //procura altura
-    public Queue<No> procuraAl(Integer al) {
-        Queue<No> q = new ArrayDeque<>();
-        return procuraAl(this.raiz, al, q);
-    }
-
-    private Queue<No> procuraAl(No no, Integer al, Queue<No> q) {
-        if (no == null) {
-            return q;
-        }
-        q = procuraAl(no.getEsquerda(), al, q);
-        q = procuraAl(no.getDireita(), al, q);
-        if (al == no.getAltura() || -al==no.getAltura()){
-            q.add(no);
-            return q;
-        }
-
-    }
-
     public boolean inserir(Integer el) {
         No no = raiz;
         No anterior = null;

@@ -6,6 +6,9 @@ import java.util.Queue;
 
 public class TrabalhoTest {
 
+    public static void main(String[] args) {
+        Menu.run();
+    }
 
     @Test
     void trabalho() {
@@ -40,45 +43,9 @@ public class TrabalhoTest {
 
     @Test
     void trabalho2() {
-        //Arvore<Integer> arvore2 = new Arvore<>();
-        //arvore2.insereRecursivoAVL(2);
 
-        //     5
-        //    / \
-        //   4   7
-        //  /   / \
-        // 1   6   8
-        //  \       \
-        //   3       9
-        //  /         \
-        // 2           10
-        Arvore arvore = new Arvore();
-        arvore.inserirEBalancearAVL(5);
-        arvore.inserirEBalancearAVL(4);
-        arvore.inserirEBalancearAVL(1);
-        arvore.inserirEBalancearAVL(3);
-        arvore.inserirEBalancearAVL(7);
-        arvore.inserirEBalancearAVL(8);
-        arvore.inserirEBalancearAVL(2);
-        arvore.inserirEBalancearAVL(4);
-        arvore.inserirEBalancearAVL(1);
-        arvore.inserirEBalancearAVL(6);
-        arvore.inserirEBalancearAVL(9);
-        arvore.inserirEBalancearAVL(10);
+        Menu.run();
 
-        arvore.extensaoVisualizacao();
-
-        Queue<No> q= arvore.procuraAl(0);
-
-
-
-        for (No n : q) {
-            System.out.println("valor: " + n.getChave());
-            System.out.println("altura: " + n.getAltura());
-        }
-
-//        System.out.println(new Menu().getTitulo());
-//        System.out.println(new Menu().getDescricao());
     }
 
 }

@@ -86,5 +86,8 @@ public class No {
         this.pai = pai;
     }
 
-
+    @Override
+    public String toString() {
+        return "\nNó: "+this.chave+"\nAltura: "+this.altura+"\nPontos: "+this.ponto+"\n";
+    }
 }
