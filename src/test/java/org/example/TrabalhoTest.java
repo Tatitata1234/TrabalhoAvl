@@ -21,6 +21,7 @@ public class TrabalhoTest {
         //   c       p
         //  /         \
         // b           q
+
         Arvore arvore = new Arvore();
         arvore.insereRecursivo(5);
         arvore.insereRecursivo(4);
@@ -35,15 +36,15 @@ public class TrabalhoTest {
         arvore.insereRecursivo(9);
         arvore.insereRecursivo(10);
 
-        Queue<No> q= arvore.procuraAl(0);
 
-        for (No n : q) {
-            System.out.println("valor: " + n.getChave());
-            System.out.println("altura: " + n.getAltura());
+
+        Queue <No> queue = arvore.procuraAl(0);
+
+        for (int i = 0; i < queue.size(); i++) {
+            System.out.println(queue.poll().getChave());
         }
-
-//        System.out.println(new Menu().getTitulo());
-//        System.out.println(new Menu().getDescricao());
+//        System.out.println(Menu.titulo());
+//        System.out.println(Menu.arvoreString(arvore));
     }
 
 }

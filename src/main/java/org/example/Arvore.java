@@ -31,8 +31,6 @@ public class Arvore {
         }
     }
 
-
-
     //procura altura
     public Queue<No> procuraAl(Integer al) {
         Queue<No> q = new ArrayDeque<>();
@@ -41,20 +39,16 @@ public class Arvore {
 
     private Queue<No> procuraAl(No no, Integer al, Queue<No> q) {
         if (no == null) {
-            return null;
-        }
-        if (Objects.equals(al, no.getAltura())) {
-            q.add(no);
-        }else if (al>no.getAltura()) {
-            procuraAl(no.getEsquerda(), al, q);
-            procuraAl(no.getDireita(), al, q);
-        }else
             return q;
+        }
+        q = procuraAl(no.getEsquerda(), al, q);
+        q = procuraAl(no.getDireita(), al, q);
+        if (al == no.getAltura() || -al==no.getAltura())
+            q.add(no);
+
         return q;
 
     }
-
-
 
     public boolean inserir(Integer el) {
         No no = raiz;
@@ -353,32 +347,5 @@ public class Arvore {
         }
     }
 
-    public Queue<No> puxaFolhas() {
-        Queue<No> folhas= new ArrayDeque<>();
-        No atual = getRaiz();
-        puxaFolhas(atual, folhas);
-        return folhas;
-    }
-    public Queue<No> puxaFolhas(No p,Queue<No> folhas) {
-
-        if (p!=null){
-            puxaFolhas(p.getEsquerda(), folhas);
-            puxaFolhas(p.getDireita(), folhas);
-            if(p.getEsquerda() == null&&p.getDireita() == null){
-                folhas.add(p);
-                return folhas;
-            }
-            folhas.add(p);
-            return folhas;
-        }
-        return folhas;
-    }
-
-    public void organiza(){
-        organiza(this.getRaiz());
-    }
-    public void organiza(No no){
-
-    }
 
 }
