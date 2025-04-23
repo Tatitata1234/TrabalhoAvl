@@ -31,6 +31,31 @@ public class Arvore {
         }
     }
 
+
+
+    //procura altura
+    public Queue<No> procuraAl(Integer al) {
+        Queue<No> q = new ArrayDeque<>();
+        return procuraAl(this.raiz, al, q);
+    }
+
+    private Queue<No> procuraAl(No no, Integer al, Queue<No> q) {
+        if (no == null) {
+            return null;
+        }
+        if (Objects.equals(al, no.getAltura())) {
+            q.add(no);
+            return q;
+        }else {
+            procuraAl(no.getEsquerda(), al, q);
+            procuraAl(no.getDireita(), al, q);
+            return q;
+        }
+
+    }
+
+
+
     public boolean inserir(Integer el) {
         No no = raiz;
         No anterior = null;
@@ -237,12 +262,19 @@ public class Arvore {
         this.builderPreOrder = new StringBuilder();
     }
 
-    public boolean inserirAVL(Integer el) {
+    public No inserirAVL(Integer el) {
         No no = raiz;
         No anterior = null;
 
         if (procura(el) != null)
-            return false;
+            return null;
+
+        No novoNo = new No(el);
+        if (raiz == null) {
+            raiz = novoNo;
+            raiz.setAltura(1);
+            return novoNo;
+        }
 
         while (no != null) {
             anterior = no;
@@ -254,20 +286,17 @@ public class Arvore {
             }
         }
 
-        if (raiz == null) {
-            raiz = new No(el);
+        assert anterior != null;
+
+        novoNo.setPai(anterior);
+        if (anterior.getChave().compareTo(el) < 0) {
+            anterior.setDireita(novoNo);
         } else {
-            assert anterior != null;
-            if (anterior.getEsquerda() == null && anterior.getDireita() == null) {
-                raiz.incrementaAltura();
-            }
-            if (anterior.getChave().compareTo(el) < 0) {
-                anterior.setDireita(new No(el));
-            } else {
-                anterior.setEsquerda(new No(el));
-            }
+            anterior.setEsquerda(novoNo);
         }
-        return true;
+
+        corrigeAltura(novoNo);
+        return novoNo;
     }
 
     public void insereRecursivo(Integer chave) {
@@ -278,6 +307,7 @@ public class Arvore {
             insereRecursivo(raiz, chave);
         }
         extensaoAltura();
+
     }
 
     public No insereRecursivo(No el, Integer chave) {
@@ -289,7 +319,7 @@ public class Arvore {
 
         if (el.getChave().compareTo(chave) < 0) {
             el.setDireita(insereRecursivo(el.getDireita(), chave));
-        } else {
+        } else if (el.getChave().compareTo(chave) > 0){
             el.setEsquerda(insereRecursivo(el.getEsquerda(), chave));
         }
 
@@ -317,13 +347,13 @@ public class Arvore {
             if (atual.getEsquerda() != null) {
                 fila.add(atual.getEsquerda());
                 alturaFilhoEsquerda = altura;
-                atual.getEsquerda().setAltura(alturaFilhoEsquerda);
+                atual.getEsquerda().setAltura(Math.max(alturaFilhoEsquerda, 0));
             }
 
             if (atual.getDireita() != null) {
                 fila.add(atual.getDireita());
                 alturaFilhoDireita = altura;
-                atual.getDireita().setAltura(alturaFilhoDireita);
+                atual.getDireita().setAltura(Math.max(alturaFilhoDireita, 0));
             }
             atual.setPonto(alturaFilhoEsquerda - alturaFilhoDireita);
         }
@@ -338,8 +368,15 @@ public class Arvore {
         while (noBusca.getDireita() != null){
             noBusca = noBusca.getDireita();
         }
-
         return noBusca;
+    }
+
+    public void inserirEBalancearAVL (Integer el) {
+        No noInserido = inserirAVL(el);
+        if (noInserido != null) {
+            balancearAvl(noInserido);
+        }
+        corrigeAltura(noInserido);
     }
 
     private void excluirPorCopia(No no) {
@@ -352,8 +389,39 @@ public class Arvore {
         // exclui maior nó filho
         excluirQuandoUmFilhoOuMenos(noMaior);
 
-        // copia o valor para o "excluído"
-        no.setChave(chaveMaior);
+    private void balancearAvl(No folha) {
+        if (folha == raiz) {
+            return;
+        }
+        No pai = folha.getPai();
+        while (pai != null) {
+            int filhoEsqAltura = pai.getEsquerda() != null ? pai.getEsquerda().getAltura() : 0;
+            int filhoDirAltura = pai.getDireita() != null ? pai.getDireita().getAltura() : 0;
+            int diferenca = filhoEsqAltura - filhoDirAltura;
+            pai.setPonto(diferenca);
+            if (Math.abs(diferenca) >= 2) {
+                if (diferenca > 0) {
+                    if (pai.getEsquerda().getPonto() >= 0) {
+                        rotaSimplesDireita(pai);
+                    } else {
+                        rotaSimplesEsquerda(pai.getEsquerda());
+                        rotaSimplesDireita(pai);
+                    }
+                } else {
+                    if (pai.getDireita().getPonto() <= 0) {
+                        rotaSimplesEsquerda(pai);
+
+                    } else {
+                        rotaSimplesDireita(pai.getDireita());
+                        rotaSimplesEsquerda(pai);
+                    }
+                }
+                balancearAvl(folha);
+                break;
+            }
+
+            pai = pai.getPai();
+        }
     }
 
     // exclue um nodo passado de parâmetro, que tenha um ou menos filhos
@@ -392,4 +460,70 @@ public class Arvore {
         return true;
     }
 
+    private void rotaSimplesEsquerda(No pai) {
+        No filhoDir = pai.getDireita();
+        No filhoEsqFilhoDir = filhoDir.getEsquerda();
+        No vo = pai.getPai();
+
+        filhoDir.setPai(pai.getPai());
+        filhoDir.setEsquerda(pai);
+        pai.setPai(filhoDir);
+        pai.setDireita(filhoEsqFilhoDir);
+
+        if (pai == raiz) {
+            raiz = filhoDir;
+        } else {
+            if (vo.getDireita() == pai) {
+                vo.setDireita(filhoDir);
+            } else {
+                vo.setEsquerda(filhoDir);
+            }
+        }
+    }
+
+    private void rotaSimplesDireita(No pai) {
+        No filhoEsq = pai.getEsquerda();
+        No filhoDirFilhoEsq = filhoEsq.getDireita();
+        No vo = pai.getPai();
+
+        filhoEsq.setPai(pai.getPai());
+        filhoEsq.setDireita(pai);
+        pai.setPai(filhoEsq);
+        pai.setEsquerda(filhoDirFilhoEsq);
+
+        if (pai == raiz) {
+            raiz = filhoEsq;
+        } else {
+            if (vo.getDireita() == pai) {
+                vo.setDireita(filhoEsq);
+            } else {
+                vo.setEsquerda(filhoEsq);
+            }
+        }
+    }
+
+    public int calculaAltura(No raizAtual){
+        if(raizAtual == null){
+            return -1;
+        }
+        else{
+            int esq = calculaAltura(raizAtual.getEsquerda());
+            int dir = calculaAltura(raizAtual.getDireita());
+            if(esq > dir)
+                return esq + 1;
+            else
+                return dir + 1;
+        }
+    }
+
+    private void corrigeAltura(No novoNo) {
+        No proximo = novoNo;
+        while (!Objects.equals(proximo, null)) {
+            int altura = calculaAltura(proximo);
+            altura++;
+            proximo.setAltura(altura);
+            proximo.setPonto(0);
+            proximo = proximo.getPai();
+        }
+    }
 }

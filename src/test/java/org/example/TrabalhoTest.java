@@ -2,6 +2,8 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Queue;
+
 public class TrabalhoTest {
 
 
@@ -10,15 +12,15 @@ public class TrabalhoTest {
         //Arvore<Integer> arvore2 = new Arvore<>();
         //arvore2.insereRecursivoAVL(2);
 
-        //     5
+        //     g
         //    / \
-        //   4   7
+        //   d   m
         //  /   / \
-        // 1   6   8
+        // a    l  o
         //  \       \
-        //   3       9
+        //   c       p
         //  /         \
-       /////////////// // 2           10
+        // b           q
         Arvore arvore = new Arvore();
         arvore.insereRecursivo(5);
         arvore.insereRecursivo(4);
@@ -49,7 +51,7 @@ public class TrabalhoTest {
         //  \       \
         //   3       9
         //  /         \
-        // 2          10
+        // 2           10
         Arvore arvore = new Arvore();
         arvore.inserirEBalancearAVL(5);
         arvore.inserirEBalancearAVL(4);
@@ -64,6 +66,15 @@ public class TrabalhoTest {
         arvore.inserirEBalancearAVL(9);
         arvore.inserirEBalancearAVL(10);
 
-        System.out.println(arvore.getRaiz().getAltura());
+        Queue<No> q= arvore.procuraAl(0);
+
+        for (No n : q) {
+            System.out.println("valor: " + n.getChave());
+            System.out.println("altura: " + n.getAltura());
+        }
+
+//        System.out.println(new Menu().getTitulo());
+//        System.out.println(new Menu().getDescricao());
     }
+
 }
