@@ -31,31 +31,6 @@ public class Arvore {
         }
     }
 
-
-
-    //procura altura
-    public Queue<No> procuraAl(Integer al) {
-        Queue<No> q = new ArrayDeque<>();
-        return procuraAl(this.raiz, al, q);
-    }
-
-    private Queue<No> procuraAl(No no, Integer al, Queue<No> q) {
-        if (no == null) {
-            return null;
-        }
-        if (Objects.equals(al, no.getAltura())) {
-            q.add(no);
-            return q;
-        }else {
-            procuraAl(no.getEsquerda(), al, q);
-            procuraAl(no.getDireita(), al, q);
-            return q;
-        }
-
-    }
-
-
-
     public boolean inserir(Integer el) {
         No no = raiz;
         No anterior = null;
@@ -394,7 +369,7 @@ public class Arvore {
                         rotaSimplesEsquerda(pai);
                     }
                 }
-                balancearAvl(folha);
+                corrigeAltura(pai);
                 break;
             }
 
@@ -473,8 +448,6 @@ public class Arvore {
             excluirQuandoUmFilhoOuMenos(desejado);
         }
 
-        System.out.println("baboseira");
-
         // Importante: balanceamento é feito nos métodos de exclusão especiais, por ter informações melhores
 //        return true;
     }
@@ -544,5 +517,30 @@ public class Arvore {
             proximo.setPonto(0);
             proximo = proximo.getPai();
         }
+    }
+
+    public void extensaoVisualizacao() {
+        Queue<No> fila = new ArrayDeque<>();
+        Queue<No> filhos = new ArrayDeque<>();
+        fila.add(this.raiz);
+
+        while (!fila.isEmpty()) {
+            No atual = fila.poll();
+            System.out.print(atual.getChave() + " ");
+            if (atual.getEsquerda() != null)
+                filhos.add(atual.getEsquerda());
+            if (atual.getDireita() != null)
+                filhos.add(atual.getDireita());
+            if (fila.isEmpty()) {
+                System.out.println();
+                fila.addAll(filhos);
+                filhos = new ArrayDeque<>();
+            }
+        }
+    }
+
+    private int altura(No no) {
+        if (no == null) return 0;
+        return 1 + Math.max(altura(no.getEsquerda()), altura(no.getDireita()));
     }
 }
