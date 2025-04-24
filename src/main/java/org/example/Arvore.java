@@ -359,18 +359,6 @@ public class Arvore {
         }
     }
 
-    private No maiorNoSubArvore(No raiz) {
-        if (raiz.getDireita() == null)
-            return raiz;
-
-        // busca o elemento mais à diretia de uma subárvore
-        No noBusca = raiz.getDireita();
-        while (noBusca.getDireita() != null){
-            noBusca = noBusca.getDireita();
-        }
-        return noBusca;
-    }
-
     public void inserirEBalancearAVL (Integer el) {
         No noInserido = inserirAVL(el);
         if (noInserido != null) {
@@ -378,16 +366,6 @@ public class Arvore {
         }
         corrigeAltura(noInserido);
     }
-
-    private void excluirPorCopia(No no) {
-        No raizSubEsquerda = no.getEsquerda();
-        No raizSubDireita = no.getDireita();
-        // buscar maior valor da subarvore à esquerda (neste ponto é garantido que há filhos na esquerda, nunca sendo nulo)
-        No noMaior = maiorNoSubArvore(raizSubEsquerda);
-        int chaveMaior = noMaior.getChave();
-
-        // exclui maior nó filho
-        excluirQuandoUmFilhoOuMenos(noMaior);
 
     private void balancearAvl(No folha) {
         if (folha == raiz) {
@@ -424,29 +402,67 @@ public class Arvore {
         }
     }
 
-    // exclue um nodo passado de parâmetro, que tenha um ou menos filhos
+    private No maiorNoSubArvore(No raiz) {
+        if (raiz.getDireita() == null)
+            return raiz;
+
+        // busca o elemento mais à diretia de uma subárvore
+        No noBusca = raiz.getDireita();
+        while (noBusca.getDireita() != null){
+            noBusca = noBusca.getDireita();
+        }
+        return noBusca;
+    }
+
+    // exclui um nó por cópia
+    private void excluirPorCopia(No no) {
+        // todo : não excluiu o desejado e excluiu o maior
+        No raizSubEsquerda = no.getEsquerda();
+//        No raizSubDireita = no.getDireita();
+        // buscar maior valor da subarvore à esquerda (neste ponto é garantido que há filhos na esquerda, nunca sendo nulo)
+        No noMaiorEsquerda = maiorNoSubArvore(raizSubEsquerda);
+        int chaveMaior = noMaiorEsquerda.getChave();
+
+        no.setChave(chaveMaior);
+
+        // exclui maior nó filho
+        excluirQuandoUmFilhoOuMenos(noMaiorEsquerda);
+
+        // balancear com método adequado
+        balancearAvl(noMaiorEsquerda); // noMaiorEsquerda é o nó afetado mais distante da raiz
+    }
+
+    // exclui um nodo passado de parâmetro, que tenha n<=1 filhos
     private void excluirQuandoUmFilhoOuMenos(No no) {
         No pai = no.getPai();
+        // busca o filho do nó, tanto esquerdo quanto direito, null caso não tenha
         No filho = no.getDireita() != null ? no.getDireita() : no.getEsquerda();
 
-        if (pai == null) {
+        if (pai == null) { // nó excluído é a raiz
             this.raiz = filho;
         } else {
+            // verificar lado que o nó deve ficar
             if (no.getChave() > pai.getChave()) {
                 pai.setDireita(filho);
             } else {
                 pai.setEsquerda(filho);
             }
         }
-        // return true;
+
+        // balancear com método adequado
+        if (filho != null)
+            balancearAvl(filho); // filho é o nó afetado mais distante da raiz
+        else
+            balancearAvl(no);
     }
 
-    public boolean excluir(Integer el) {
+    // exclui o nó com o número informado
+    public void excluir(Integer el) {
         // encontrar nó a ser excluído
         No desejado = procura(el); // nó que se deseja excluir
-        No pai = desejado.getPai();
-        if (desejado == null) // todo: investigar, idediz q condição é sempre falsa
-            return false;
+        if (desejado == null)
+            return;
+//        No pai = desejado.getPai();
         // caso tenha dois filhos
         if (desejado.getDireita() != null && desejado.getEsquerda() != null) {
             // exclusão por cópia
@@ -456,8 +472,11 @@ public class Arvore {
             // exclusão simples
             excluirQuandoUmFilhoOuMenos(desejado);
         }
-        // todo: checar todos antecedentes do nó excluído para desbalanceamento
-        return true;
+
+        System.out.println("baboseira");
+
+        // Importante: balanceamento é feito nos métodos de exclusão especiais, por ter informações melhores
+//        return true;
     }
 
     private void rotaSimplesEsquerda(No pai) {

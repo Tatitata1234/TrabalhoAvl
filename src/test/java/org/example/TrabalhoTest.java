@@ -77,4 +77,34 @@ public class TrabalhoTest {
 //        System.out.println(new Menu().getDescricao());
     }
 
+
+    @Test
+    void inserirEExcluir() {
+
+        //     5
+        //    / \
+        //   4   7
+        //  /   / \
+        // 1   6   8
+        Arvore arvore = new Arvore();
+        arvore.inserirEBalancearAVL(32);
+        arvore.inserirEBalancearAVL(16);
+        arvore.inserirEBalancearAVL(48);
+        arvore.inserirEBalancearAVL(8);
+        arvore.inserirEBalancearAVL(40);
+        arvore.inserirEBalancearAVL(24);
+        arvore.inserirEBalancearAVL(56);
+        arvore.inserirEBalancearAVL(28);
+        arvore.inserirEBalancearAVL(36);
+        arvore.inserirEBalancearAVL(44);
+        arvore.inserirEBalancearAVL(52);
+        arvore.inserirEBalancearAVL(60);
+        arvore.inserirEBalancearAVL(58);
+        arvore.inserirEBalancearAVL(62);
+
+        arvore.excluir(8);
+
+//        System.out.println(new Menu().getTitulo());
+    }
+
 }
