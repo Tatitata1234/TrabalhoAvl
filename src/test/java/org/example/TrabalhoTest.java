@@ -6,9 +6,6 @@ import java.util.Queue;
 
 public class TrabalhoTest {
 
-    public static void main(String[] args) {
-        Menu.run();
-    }
 
     @Test
     void trabalho() {
@@ -43,8 +40,6 @@ public class TrabalhoTest {
 
     @Test
     void trabalho2() {
-
-        Menu.run();
 
     }
 

@@ -2,10 +2,15 @@ package org.example;
 
 import java.util.Scanner;
 
-public interface Menu {
+public class Menu {
+    private Menu(){}
+
+    public static void main(String[] args) {
+        Menu.run();
+    }
 
 
-    static String titulo(){
+    public static String titulo(){
         return ("""
                   /$$$$$$                                                           /$$$$$$  /$$    /$$ /$$     \s
                  /$$__  $$                                                         /$$__  $$| $$   | $$| $$     \s
@@ -21,7 +26,7 @@ public interface Menu {
                 """);
     }
 
-    static void arvoreString(Arvore a){
+    public static void arvoreString(Arvore a){
         StringBuilder arvere = new StringBuilder();
         No no = a.getRaiz();
         int h =0;
@@ -34,7 +39,7 @@ public interface Menu {
         System.out.println(arvere.toString());
     }
 
-    static StringBuilder arvoreString(No no, int h, StringBuilder arvere){
+    public static StringBuilder arvoreString(No no, int h, StringBuilder arvere){
         if (no == null){
             return arvere;
         }
@@ -50,67 +55,102 @@ public interface Menu {
         return arvere;
     }
 
-    static void run(){
+    public static void run(){
         Scanner scan = new Scanner(System.in);
         int option = 0;
+        int escolha = 0;
         Arvore arvore = new Arvore();
         System.out.println(titulo());;
         do {
-            if (arvore.isEmpty()){
-                System.out.println("\nSem árvore ainda\n");
-            }else {
+            switch (option){
+                case 1:
+                    if (!arvore.isEmpty()){
+                        System.out.println("Arvore ja criada...");
+                        System.out.println("Deseja Criar outra árvore ?\n1 - Sim\nQualquer outro número - Não");
+                        escolha = scan.nextInt();
+                        if (escolha == 1){
+                            arvore.clear();
+                            arvore.inserirEBalancearAVL(scan.nextInt());
+                        }
+                    }else {
+                        System.out.println("Criando árvore...");
+                        System.out.println("Digite o número que deseja inserir");
+                        arvore.inserirEBalancearAVL(scan.nextInt());
+                    }
+                    break;
+                case 2:
+                    if (!arvore.isEmpty()){
+                        System.out.println("Digite o número que deseja inserir");
+                        escolha = scan.nextInt();
+
+                        while (arvore.procura(escolha)!=null){
+                            System.out.println("Esse nó ja está na árvore, digite outro número:\n");
+                            escolha = scan.nextInt();
+                        }
+
+                        arvore.inserirEBalancearAVL(escolha);
+                    }else {
+                        System.out.println("Árvore ainda não criada...");
+                    }
+                    break;
+                case 3:
+                    if (!arvore.isEmpty()){
+                        System.out.println("Digite o número que deseja excluir");
+                        escolha = scan.nextInt();
+                        while (arvore.procura(escolha)==null){
+                            System.out.println("Esse nó não existe na árvore, digite outro número:\n");
+                            escolha = scan.nextInt();
+                        }
+                        arvore.deletarPorCopia(escolha);
+                    }else {
+                        System.out.println("Árvore ainda não criada");
+                    }
+                    break;
+                case 4:
+                    if (!arvore.isEmpty()){
+                        System.out.println("Digite o número que deseja procurar");
+                        escolha = scan.nextInt();
+                        while (arvore.procura(escolha)==null){
+                            System.out.println("Esse valor não existe na árvore, digite outro número:\n");
+                            escolha = scan.nextInt();
+                        }
+                        System.out.println(arvore.procura(escolha).toString());;
+                    }else {
+                        System.out.println("Árvore ainda não criada");
+                    }
+                    break;
+                case 5:
+                    arvore.clear();
+                    System.out.println("Árvore Limpa...");
+                    break;
+                default:
+                    System.out.println("Opção inválida...");
+                    break;
+            }
+
+            if (!arvore.isEmpty()){
                 arvoreString(arvore);
             }
 
             System.out.println(op());;
             option = scan.nextInt();
 
-            switch (option){
-                case 1:
-                    if (arvore.getRaiz()!= null){
-                        System.out.println("Arvore ja criada...");
-                    }else {
-                        System.out.println("Criando árvore...");
-                        System.out.println("Digite o número que deseja inserir");
-                        arvore.insereRecursivo(scan.nextInt());
-                    }
-                    break;
-                case 2:
-                    if (arvore.getRaiz()!=null){
-                        System.out.println("Digite o número que deseja inserir");
-                        arvore.inserirEBalancearAVL(scan.nextInt());
-                    }else {
-                        System.out.println("Árvore ainda não criada");
-                    }
-                    break;
-                case 3:
-                    if (arvore.getRaiz()!=null){
-                        System.out.println("Digite o número que deseja excluir");
-                        arvore.deletarPorFusao(scan.nextInt());
-                    }else {
-                        System.out.println("Árvore ainda não criada");
-                    }
-                    break;
-                case 4:
-                    if (arvore.getRaiz()!=null){
-                        System.out.println("Digite o número que deseja procurar");
-                        System.out.println(arvore.procura(scan.nextInt()).toString());;
-                    }else {
-                        System.out.println("Árvore ainda não criada");
-                    }
-                    break;
-            }
-        }while (option!=5);
+        }while (option!=6);
         scan.close();
     }
 
     static String op (){
         return """
+        
+        Digite a Opção:
         1 - Criar uma Árvore
         2 - Inserir um valor
         3 - Excluir um valor
         4 - Buscar um valor
-        5 - Sair
+        5 - Limpa a árvore
+        6 - Sair
+        
+        
         """;
     }
 
