@@ -88,6 +88,19 @@ public class No {
 
     @Override
     public String toString() {
-        return "\nNó: "+this.chave+"\nAltura: "+this.altura+"\nPontos: "+this.ponto+"\n";
+        int p = 0;
+        int esq;
+        int dir;
+        if (this.esquerda == null) {
+            esq=0;
+        }
+        else
+            esq = this.esquerda.getAltura();
+        if (this.direita == null) {
+            dir=0;
+        }else
+            dir = this.direita.getAltura();
+        p = esq-dir;
+        return "\nNó: "+this.chave+"\nAltura: "+this.altura+"\nPontos: "+p+"\n";
     }
 }
