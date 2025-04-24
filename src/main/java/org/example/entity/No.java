@@ -1,4 +1,4 @@
-package org.example;
+package org.example.entity;
 
 public class No {
 
@@ -29,10 +29,6 @@ public class No {
         this.direita = direita;
         this.altura = 0;
         this.ponto = 0;
-    }
-
-    public void incrementaAltura() {
-        this.altura++;
     }
 
     public Integer getChave() {
@@ -88,19 +84,18 @@ public class No {
 
     @Override
     public String toString() {
-        int p = 0;
+        int p;
         int esq;
         int dir;
         if (this.esquerda == null) {
-            esq=0;
-        }
-        else
+            esq = 0;
+        } else
             esq = this.esquerda.getAltura();
         if (this.direita == null) {
-            dir=0;
-        }else
+            dir = 0;
+        } else
             dir = this.direita.getAltura();
-        p = esq-dir;
-        return "\nNó: "+this.chave+"\nAltura: "+this.altura+"\nPontos: "+p+"\n";
+        p = esq - dir;
+        return "\nNó: " + this.chave + "\nAltura: " + this.altura + "\nPontos: " + p + "\n";
     }
 }
