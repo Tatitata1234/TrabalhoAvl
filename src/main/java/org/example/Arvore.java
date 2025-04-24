@@ -370,6 +370,7 @@ public class Arvore {
                         rotaSimplesEsquerda(pai);
                     }
                 }
+                corrigeAltura(pai);
                 break;
             }
 
