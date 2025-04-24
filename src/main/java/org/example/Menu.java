@@ -101,7 +101,7 @@ public class Menu {
                             System.out.println("Esse nó não existe na árvore, digite outro número:\n");
                             escolha = scan.nextInt();
                         }
-                        arvore.deletarPorCopia(escolha);
+                        arvore.excluir(escolha);
                     }else {
                         System.out.println("Árvore ainda não criada");
                     }

@@ -370,7 +370,6 @@ public class Arvore {
                     }
                 }
                 corrigeAltura(pai);
-                break;
             }
 
             pai = pai.getPai();
