@@ -69,8 +69,6 @@ public class TrabalhoTest {
         arvore.inserirEBalancearAVL(62);
 
         arvore.excluir(8);
-
-//        System.out.println(new Menu().getTitulo());
     }
 
 }

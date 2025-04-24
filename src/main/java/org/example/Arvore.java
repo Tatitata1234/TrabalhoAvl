@@ -388,34 +388,26 @@ public class Arvore {
         return noBusca;
     }
 
-    // exclui um nó por cópia
     private void excluirPorCopia(No no) {
         // todo : não excluiu o desejado e excluiu o maior
         No raizSubEsquerda = no.getEsquerda();
-//        No raizSubDireita = no.getDireita();
-        // buscar maior valor da subarvore à esquerda (neste ponto é garantido que há filhos na esquerda, nunca sendo nulo)
         No noMaiorEsquerda = maiorNoSubArvore(raizSubEsquerda);
         int chaveMaior = noMaiorEsquerda.getChave();
 
         no.setChave(chaveMaior);
 
-        // exclui maior nó filho
         excluirQuandoUmFilhoOuMenos(noMaiorEsquerda);
 
-        // balancear com método adequado
-        balancearAvl(noMaiorEsquerda); // noMaiorEsquerda é o nó afetado mais distante da raiz
+        balancearAvl(noMaiorEsquerda);
     }
 
-    // exclui um nodo passado de parâmetro, que tenha n<=1 filhos
     private void excluirQuandoUmFilhoOuMenos(No no) {
         No pai = no.getPai();
-        // busca o filho do nó, tanto esquerdo quanto direito, null caso não tenha
         No filho = no.getDireita() != null ? no.getDireita() : no.getEsquerda();
 
-        if (pai == null) { // nó excluído é a raiz
+        if (pai == null) {
             this.raiz = filho;
         } else {
-            // verificar lado que o nó deve ficar
             if (no.getChave() > pai.getChave()) {
                 pai.setDireita(filho);
             } else {
@@ -423,32 +415,22 @@ public class Arvore {
             }
         }
 
-        // balancear com método adequado
         if (filho != null)
-            balancearAvl(filho); // filho é o nó afetado mais distante da raiz
+            balancearAvl(filho);
         else
             balancearAvl(no);
     }
 
-    // exclui o nó com o número informado
     public void excluir(Integer el) {
-        // encontrar nó a ser excluído
-        No desejado = procura(el); // nó que se deseja excluir
+        No desejado = procura(el);
         if (desejado == null)
             return;
-//        No pai = desejado.getPai();
-        // caso tenha dois filhos
         if (desejado.getDireita() != null && desejado.getEsquerda() != null) {
-            // exclusão por cópia
             excluirPorCopia(desejado);
-        // caso contrário (um ou menos)
         } else {
-            // exclusão simples
             excluirQuandoUmFilhoOuMenos(desejado);
         }
 
-        // Importante: balanceamento é feito nos métodos de exclusão especiais, por ter informações melhores
-//        return true;
     }
 
     private void rotaSimplesEsquerda(No pai) {
